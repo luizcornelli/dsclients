@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.devsuperior.dsclients.services.exceptions.DatabaseException;
 import com.devsuperior.dsclients.services.exceptions.ResourceNotFoundException;
+import com.devsuperior.dsclients.services.exceptions.UtilsValidationException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -44,6 +45,23 @@ public class ResourceExceptionHandler {
 		standardError.setStatus(httpStatus.value());
 		standardError.setError("Database exception");
 		standardError.setMessage(databaseException.getMessage());
+		standardError.setPath(httpServletRequest.getRequestURI());
+		
+		return ResponseEntity.status(httpStatus.value()).body(standardError);
+	}
+	
+	@ExceptionHandler(UtilsValidationException.class)
+	public ResponseEntity<StandardError> entityNotFound(UtilsValidationException utilsValidationException,
+			HttpServletRequest httpServletRequest) {
+		
+		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+		
+		StandardError standardError = new StandardError();
+		
+		standardError.setTimestamp(Instant.now());
+		standardError.setStatus(httpStatus.value());
+		standardError.setError("Database exception");
+		standardError.setMessage(utilsValidationException.getMessage());
 		standardError.setPath(httpServletRequest.getRequestURI());
 		
 		return ResponseEntity.status(httpStatus.value()).body(standardError);

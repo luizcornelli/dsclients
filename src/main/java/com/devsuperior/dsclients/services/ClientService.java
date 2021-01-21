@@ -17,6 +17,8 @@ import com.devsuperior.dsclients.entities.Client;
 import com.devsuperior.dsclients.repositories.ClientRepository;
 import com.devsuperior.dsclients.services.exceptions.DatabaseException;
 import com.devsuperior.dsclients.services.exceptions.ResourceNotFoundException;
+import com.devsuperior.dsclients.services.exceptions.UtilsValidationException;
+import com.devsuperior.dsclients.services.utils.Format;
 
 @Service
 public class ClientService {
@@ -44,17 +46,22 @@ public class ClientService {
 	@Transactional
 	public ClientDTO insert(ClientDTO clientDTO) {
 
-		Client client = new Client();
-		
-		client.setName(clientDTO.getName());
-		client.setCpf(clientDTO.getCpf());
-		client.setIncome(clientDTO.getIncome());
-		client.setBirthDate(clientDTO.getBirthDate());
-		client.setChildren(clientDTO.getChildren());
-		
-		client = clientRepository.save(client);
+		try {
+			
+			Client client = new Client();
+			
+			client.setName(clientDTO.getName());
+			client.setCpf(Format.formatCpf(clientDTO.getCpf()));
+			client.setIncome(clientDTO.getIncome());
+			client.setBirthDate(clientDTO.getBirthDate());
+			client.setChildren(clientDTO.getChildren());
+			
+			client = clientRepository.save(client);
 
-		return new ClientDTO(client);
+			return new ClientDTO(client);
+		} catch (UtilsValidationException e) {
+			throw new UtilsValidationException("Not format cpf " + clientDTO.getCpf());
+		}
 	}
 
 	@Transactional
@@ -65,12 +72,19 @@ public class ClientService {
 			Client client = clientRepository.getOne(id);
 
 			client.setName(clientDTO.getName());
+			client.setCpf(Format.formatCpf(clientDTO.getCpf()));
+			client.setIncome(clientDTO.getIncome());
+			client.setBirthDate(clientDTO.getBirthDate());
+			client.setChildren(clientDTO.getChildren());
+			
 			client = clientRepository.save(client);
 
 			return new ClientDTO(client);
 
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found " + id);
+		} catch (UtilsValidationException e) {
+			throw new UtilsValidationException("Not format cpf " + clientDTO.getCpf());
 		}
 	}
 
