@@ -17,7 +17,7 @@ import com.devsuperior.dsclients.services.exceptions.UtilsValidationException;
 public class ResourceExceptionHandler {
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<StandardError> entityNotFound(ResourceNotFoundException entityNotFoundException,
+	public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException entityNotFoundException,
 			HttpServletRequest httpServletRequest) {
 		
 		HttpStatus httpStatus = HttpStatus.NOT_FOUND;
@@ -34,7 +34,7 @@ public class ResourceExceptionHandler {
 	}
 	
 	@ExceptionHandler(DatabaseException.class)
-	public ResponseEntity<StandardError> entityNotFound(DatabaseException databaseException,
+	public ResponseEntity<StandardError> database(DatabaseException databaseException,
 			HttpServletRequest httpServletRequest) {
 		
 		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
@@ -43,7 +43,7 @@ public class ResourceExceptionHandler {
 		
 		standardError.setTimestamp(Instant.now());
 		standardError.setStatus(httpStatus.value());
-		standardError.setError("Database exception");
+		standardError.setError("Database");
 		standardError.setMessage(databaseException.getMessage());
 		standardError.setPath(httpServletRequest.getRequestURI());
 		
@@ -51,7 +51,7 @@ public class ResourceExceptionHandler {
 	}
 	
 	@ExceptionHandler(UtilsValidationException.class)
-	public ResponseEntity<StandardError> entityNotFound(UtilsValidationException utilsValidationException,
+	public ResponseEntity<StandardError> utilsValidation(UtilsValidationException utilsValidationException,
 			HttpServletRequest httpServletRequest) {
 		
 		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
@@ -60,7 +60,7 @@ public class ResourceExceptionHandler {
 		
 		standardError.setTimestamp(Instant.now());
 		standardError.setStatus(httpStatus.value());
-		standardError.setError("Database exception");
+		standardError.setError("Utils validation");
 		standardError.setMessage(utilsValidationException.getMessage());
 		standardError.setPath(httpServletRequest.getRequestURI());
 		
