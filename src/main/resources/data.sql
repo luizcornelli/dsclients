@@ -5,3 +5,6 @@ insert into tb_client(name, cpf, income, birth_date, children, create_at) values
 insert into tb_client(name, cpf, income, birth_date, children, create_at) values('Luan', '862.070.320-04', 3600.0, '1999-12-25T09:16:00Z', 1, now());
 insert into tb_client(name, cpf, income, birth_date, children, create_at) values('Fernanda', '445.865.930-83', 6700.0, '1996-11-20T07:21:00Z', 0, now());
 insert into tb_client(name, cpf, income, birth_date, children, create_at) values('Fabio', '434.523.630-40', 8800.0, '1996-03-12T03:36:00Z', 6, now());
+insert into tb_client(name, cpf, income, birth_date, children, create_at) values('Marize', '740.959.310-51', 2700.0, '1987-03-12T03:36:00Z', 10, now());
+insert into tb_client(name, cpf, income, birth_date, children, create_at) values('Julia', '392.502.800-50', 4200.0, '19975-03-12T03:36:00Z', 3, now());
+insert into tb_client(name, cpf, income, birth_date, children, create_at) values('Romana', '037.920.620-03', 6100.0, '1942-03-12T03:36:00Z', 5, now());
